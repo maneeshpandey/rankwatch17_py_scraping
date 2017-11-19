@@ -13,17 +13,17 @@ url = "https://www.babynamesdirect.com/baby-names"
 
 def check_redirection(url):
     req = urllib2.Request(url=url)
-    resp = urllib2.urlopen(req, timeout=3)
-    redirected = resp.geturl() != url # redirected will be a boolean True/False
-    return redirected
+    resp = urllib2.urlopen(req, timeout=3)                 #fetching internet resources
+    redirect = resp.geturl() != url                        # redirect will take boolean value True or false 
+    return redirect
 
 
 with open("names.csv", "wb") as csvfile:
-    spamwriter = csv.writer(csvfile1, delimiter=',')
-    spamwriter.writerow(["name","gender"])
+    spamwriter = csv.writer(csvfile1, delimiter=',')           #writing to csv file
+    spamwriter.writerow(["name","gender"])                     #writing in particular row
 
 def get_names(url,gender):
-    page = urllib2.urlopen(url)
+    page = urllib2.urlopen(url)                                #fetching internet resources
     soup = BeautifulSoup(page)
     all_li=soup.find_all('li', class_='ntr')
     for i in all_li:
@@ -31,11 +31,11 @@ def get_names(url,gender):
         if(i.dl.dt):
             if(i.dl.dt.b):
                 if(i.dl.dt.b.a):
-                    with open("names.csv", "a") as csvfile:
-                        spamwriter = csv.writer(csvfile, delimiter=',')
-                        spamwriter.writerow([i.dl.dt.b.text, gender])
+                    with open("names.csv", "a") as csvfile:                       #opening file
+                        spamwriter = csv.writer(csvfile, delimiter=',')           #writing names seprated by comma
+                        spamwriter.writerow([i.dl.dt.b.text, gender])             #writing gender
 
-for region in regions:
+for region in regions:                                             #loop for matching gender and writing to csv file under gender column
     url_now = url + "/" + region
     for gender in genders:
         url_now_2 = url_now + "/" + gender
